@@ -17,10 +17,10 @@ var Game = {
         this.BG2 = game.add.sprite(WIDTH, 0, 'BG');
 
         //  Add player
-        this.Player = game.add.sprite(100,100,'Player');
+        this.Player = game.add.sprite(100,415,'Player');
         this.Run = this.Player.animations.add('Run')
         this.Player.animations.play('Run',20,true);
-        this.Obstacle = game.add.image(500,100,'Obstacle');
+        //this.Obstacle = game.add.image(500,460,'Obstacle');
     },
 
     BG_effect : function() {
