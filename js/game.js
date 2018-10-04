@@ -6,33 +6,33 @@ var game = new Phaser.Game(WIDTH, HEIGHT,Phaser.Auto)
 
 var Game = {
     preload: function(){
-        game.load.image('background', '../asset/background/background.jpg');
+        game.load.image('BG', '../asset/background/BG.png');
         game.load.spritesheet('Player','../asset/sprites/RunP.png',57,80,12);
     },
 
-    background_effect : function() {
-        let background_speed = 5;
-        background1.x -= background_speed;
-        background2.x -= background_speed;
-        if (background2.x <= 0) {
-            background1.x = 0;
-            background2.x = WIDTH;
+    create: function(){
+        //  Add BG
+        this.BG1 = game.add.sprite(0, 0, 'BG');
+        this.BG2 = game.add.sprite(WIDTH, 0, 'BG');
+
+        //  Add player
+        this.Player = game.add.sprite(100,100,'Player');
+        this.Run = this.Player.animations.add('Run')
+        this.Player.animations.play('Run',20,true);
+    },
+
+    BG_effect : function() {
+        let BG_speed = 5;
+        this.BG1.x -= BG_speed;
+        this.BG2.x -= BG_speed;
+        if (this.BG2.x <= 0) {
+            this.BG1.x = 0;
+            this.BG2.x = WIDTH;
         }
     },
 
-    create: function(){
-        //  Add background
-        var background1 = game.add.sprite(0, 0, 'background');
-        var background2 = game.add.sprite(WIDTH, 0, 'background');
-
-        //  Add player
-        var Player = game.add.sprite(100,100,'Player');
-        var Run = Player.animations.add('Run')
-        Player.animations.play('Run',20,true);
-    },
-
     update: function(){
-        background_effect();
+        Game.BG_effect();
     },
 }
 game.state.add('Game',Game);
