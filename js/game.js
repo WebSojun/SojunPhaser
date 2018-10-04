@@ -7,7 +7,8 @@ var game = new Phaser.Game(WIDTH, HEIGHT,Phaser.Auto)
 var Game = {
     preload: function(){
         game.load.image('BG', '../asset/background/BG.png');
-        game.load.spritesheet('Player','../asset/sprites/RunP.png',57,80,12);
+        game.load.image('Obstacle','../asset/sprites/Obstacle.png')
+        game.load.spritesheet('Player','../asset/sprites/RunP.png',55,64,12);
     },
 
     create: function(){
@@ -19,6 +20,7 @@ var Game = {
         this.Player = game.add.sprite(100,100,'Player');
         this.Run = this.Player.animations.add('Run')
         this.Player.animations.play('Run',20,true);
+        this.Obstacle = game.add.image(500,100,'Obstacle');
     },
 
     BG_effect : function() {
