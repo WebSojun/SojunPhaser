@@ -17,8 +17,6 @@ var Game = {
 
     create: function(){
         //  Add BG
-        game.physics.startSystem(Phaser.Physics.ARCADE)
-        game.physics.arcade.gravity.y = 100;
         this.BG1 = game.add.sprite(0, 0, 'BG');
         this.BG2 = game.add.sprite(WIDTH, 0, 'BG');
 
@@ -27,8 +25,6 @@ var Game = {
         this.Run = this.Player.animations.add('Run')
         this.Player.animations.play('Run',20,true);
         this.ObsList = [];
-        game.physics.enable(this.Player, Phaser.Physics.ARCADE)
-        this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
 
     BG_effect : function() {
@@ -46,9 +42,6 @@ var Game = {
         this.pushObs();
         for(let i=0; i<this.ObsList.length;i++){
             this.ObsList[i].x-=5;
-        }
-        if(Game.jumpButton.isDown && Game.Player.body.onFloor()){
-            Game.Player.body.velocity.y = -250;
         }
     },
 
