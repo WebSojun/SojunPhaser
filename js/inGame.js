@@ -1,19 +1,7 @@
-//  System variable
-const WIDTH = 800;
-const HEIGHT = 600;
 
-var jumpButton;
+var inGame = function(game) {}
 
-
-var game = new Phaser.Game(WIDTH, HEIGHT,Phaser.Auto)
-
-var Game = {
-    preload: function(){
-        game.load.image('BG', '../asset/background/BG.png');
-        game.load.image('Obstacle','../asset/sprites/Obstacle.png')
-        game.load.spritesheet('Player','../asset/sprites/RunP.png',55,64,12);
-    },
-
+inGame.prototype = {
     create: function(){
         //  Set game physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -31,11 +19,11 @@ var Game = {
         this.Run = this.Player.animations.add('Run')
         this.Player.animations.play('Run',20,true);
         
-        //  Set collider
+        //  Set colliderPlayer
         this.physics.enable(this.Player, Phaser.Physics.ARCADE);
         //this.Player.body.bounce.y = 0.2;
         this.Player.body.collideWorldBounds = true;
-        this.Player.body.setSize(20, 32, 5, 16);
+        this.Player.body.setSize(20, 32, 5, 32);
 
         this.ObsList = [];
     },
@@ -65,14 +53,14 @@ var Game = {
 
     pushObs: function(){
         if(rand(1,20) == 1){
-            let obs = game.add.image(800,460,'Obstacle');
+            let obs = game.add.sprite(800,460,'Obstacle');
+            // this.physics.enable(this.obs, Phaser.Physics.ARCADE);
+            // obs.body.collideWorldBounds = true;
+            // obs.body.setSize(0, 0, 32, 32);
             Game.ObsList.push(obs)
         }
     }
 }
-game.state.add('Game',Game);
-
-game.state.start('Game');
 
 
 //  Utility
