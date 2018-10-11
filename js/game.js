@@ -16,7 +16,7 @@ var Game = {
 
     create: function(){
         //  Set game physics
-        this.physics.startSystem(Phaser.physics.ARCADE);
+        game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.gravity.y = 250;
 
         //  Keyboard
