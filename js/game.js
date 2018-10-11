@@ -12,18 +12,13 @@ var Game = {
         game.load.image('BG', '../asset/background/BG.png');
         game.load.image('Obstacle','../asset/sprites/Obstacle.png')
         game.load.spritesheet('Player','../asset/sprites/RunP.png',55,64,12);
-        game.load.
+        game.load.spritesheet('BigBlock','../asset/blocks/High.png');
     },
 
     create: function(){
         //  Set game physics
-<<<<<<< HEAD
-        game.physics.startSystem(Phaser.physics.ARCADE);
-        game.physics.arcade.gravity.y = 250;
-=======
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.gravity.y = 800;
->>>>>>> 9937f505c3cbd6934c2adeccbe03c37d83de5117
 
         //  Keyboard
         this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
