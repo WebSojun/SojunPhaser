@@ -20,7 +20,7 @@ var Game = {
         game.physics.arcade.gravity.y = 250;
 
         //  Keyboard
-        this.jumpButton = game.input.Keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 
         //  Add BG
@@ -34,10 +34,10 @@ var Game = {
         this.Obstacle = game.add.image(500,100,'Obstacle');
         
         //  Set collider
-        this.physics.enable(Player, Phaser.physics.ARCADE);
-        player.body.bounce.y = 0.2;
-        player.body.collideWorldBounds = true;
-        player.body.setSize(20, 32, 5, 16);
+        this.physics.enable(this.Player, Phaser.Physics.ARCADE);
+        this.Player.body.bounce.y = 0.2;
+        this.Player.body.collideWorldBounds = true;
+        this.Player.body.setSize(20, 32, 5, 16);
     },
 
     BG_effect: function() {
@@ -51,7 +51,7 @@ var Game = {
     },
 
     playerMove: function() {
-        if (Game.jumpButton.isDown && Game.Player.body.onFloor() && game.time.now > jumpTimer) {
+        if (Game.jumpButton.isDown && Game.Player.body.onFloor()) {
             Game.Player.body.velocity.y = -250;
             jumpTimer = game.time.now + 750;
         }
