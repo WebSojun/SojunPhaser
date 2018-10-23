@@ -38,15 +38,18 @@ var Game = {
         //#region Set collider
         this.physics.enable([this.Player, this.Floor], Phaser.Physics.ARCADE);
 
-        this.Floor.body.allowGravity = false;
         this.Floor.body.checkCollision.up = true;
         this.Floor.body.immovable = true;
+        this.Floor.body.allowGravity = false;
 
         this.Player.body.collideWorldBounds = true;
         this.Player.body.setSize(20, 32, 5, 16);
 
         //#endregion
         this.ObsGroup = game.add.group();
+        this.ObsGroup.physicsBodyType = Phaser.Physics.ARCADE;
+        this.ObsGroup.enableBody = true;
+
     },
 
     BG_effect: function() {
@@ -69,40 +72,37 @@ var Game = {
         // for(let i=0; i<this.ObsList.length;i++){
         //     this.ObsGroup[i].x-=5;
         // }
-        this.ObsGroup.subAll('x',5);
-        game.physics.arcade.collide(Game.Player,Game.Floor);
-
-        if(Game.Player.body.touching.down && Game.jumpButton.isDown){
+        
+        if(game.physics.arcade.collide(Game.Player,Game.Floor) && Game.jumpButton.isDown){
             Game.Player.body.velocity.y = -500;
         }
 
+        if(game.physics.arcade.collide(Game.Player,this.ObsGroup)){
+            game.state.start('TEMP');
+        }
+
+        this.ObsGroup.subAll('x',5);
     },
 
     pushObs: function(){
-        if(rand(1,20) == 1){
+        if(rand(1,40) == 1){
             this.ObsGroup.create(800,460,'Obstacle');
+            this.ObsGroup.setAll('body.allowGravity', false);
+            this.ObsGroup.setAll('body.immovable', true);
+
         }
     },
-    
-    /*pushBig: function(){
-        if(rand(1,20) == 1){
-            let blocke = game.add.image(800,460,'BigBlock');
-            Game.BigList.push(blocke)
-        }
-    },
-    
-    pushSmall: function(){
-        if(rand(1,20) == 1){
-            let blocke = game.add.image(800,460,'SmallBlock');
-            Game.SmallList.push(blocke)
-            
-        }
-    }
-*/
     
 }
-game.state.add('Game',Game);
 
+var TEMP = {
+    preload:function(){},
+    create:function(){},
+    update:function(){}
+}
+
+game.state.add('Game',Game);
+game.state.add('TEMP',TEMP);
 game.state.start('Game');
 
 
