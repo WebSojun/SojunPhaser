@@ -1,11 +1,11 @@
 var gameOver = {
     create: function () {
-        this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        var gameTitle = game.add.sprite(0, 0, 'gameOverBG');
+        var bt_restart = game.add.button(WIDTH / 2, 500, 'button', this.restart, this)
+        bt_restart.anchor.setTo(0.5, 0.5);
     },
 
-    update: function () {
-        if (Game.jumpButton.isDown) {
-            this.game.state.start('inGame');
-        }
+    restart: function () {
+        this.game.state.start('Game');
     }
 }

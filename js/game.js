@@ -29,6 +29,8 @@ var Game = {
 
         //#endregion
         this.ObsGroup = game.add.group();
+        this.ObsGroup.physicsBodyType = Phaser.Physics.ARCADE;
+        this.ObsGroup.enableBody = true;
     },
 
     BG_effect: function () {
@@ -47,10 +49,15 @@ var Game = {
 
         this.pushObs();
         this.ObsGroup.subAll('x', 5);
-        game.physics.arcade.collide(Game.Player, Game.Floor);
+        
 
-        if (Game.Player.body.touching.down && Game.jumpButton.isDown) {
+        if (game.physics.arcade.collide(Game.Player, Game.Floor) && Game.jumpButton.isDown) {
             Game.Player.body.velocity.y = -500;
+        }
+
+        //  사 망        
+        if(game.physics.arcade.collide(Game.Player,this.ObsGroup)){
+            game.state.start('gameOver');
         }
 
     },
@@ -58,6 +65,8 @@ var Game = {
     pushObs: function () {
         if (rand(1, 20) == 1) {
             this.ObsGroup.create(800, 460, 'Obstacle');
+            this.ObsGroup.setAll('body.allowGravity', false);
+            this.ObsGroup.setAll('body.immovable', true);
         }
     },
 }
