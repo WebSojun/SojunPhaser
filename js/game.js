@@ -44,9 +44,11 @@ var Game = {
 
         this.Player.body.collideWorldBounds = true;
         this.Player.body.setSize(20, 32, 5, 16);
+        this.Player.body.y = 430
 
         //#endregion
         this.ObsList = [];
+        this.ObsGroup = game.add.group();
     },
 
     BG_effect: function() {
@@ -66,22 +68,21 @@ var Game = {
         this.pushObs();
        // this.pushBig();
         //this.pushSmall();
-        for(let i=0; i<this.ObsList.length;i++){
-            this.ObsList[i].x-=5;
-        }
-
+        // for(let i=0; i<this.ObsList.length;i++){
+        //     this.ObsGroup[i].x-=5;
+        // }
+        this.ObsGroup.subAll('x',5);
         game.physics.arcade.collide(Game.Player,Game.Floor);
+
         if(Game.Player.body.touching.down && Game.jumpButton.isDown){
-                Game.Player.body.velocity.y = -500;
+            Game.Player.body.velocity.y = -500;
         }
 
     },
 
     pushObs: function(){
         if(rand(1,20) == 1){
-            let obs = game.add.image(800,460,'Obstacle',);
-            Game.ObsList.push(obs)
-            
+            this.ObsGroup.create(800,460,'Obstacle');
         }
     },
     
