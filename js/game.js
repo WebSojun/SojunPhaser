@@ -14,42 +14,39 @@ var Game = {
         game.load.image('BigBlock','../asset/blocks/High.png');
         game.load.image('SmallBlock','../asset/blocks/Low.png');
         game.load.spritesheet('Player','../asset/sprites/RunP.png',55,64,12);
-        
-
-
+        game.load.image('Floor', '../asset/background/Floor.png');
     },
 
     create: function(){
-        //  Set game physics
+        //#region Set physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.physics.arcade.gravity.y = 800;
-
-        //  Keyboard
+        game.physics.arcade.gravity.y = 1400;
+        //#endregion
+        //#region Add Keyboard
         this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
-        //  Add BG
+        //#endregion
+        //#region Add Sprite
         this.BG1 = game.add.sprite(0, 0, 'BG');
         this.BG2 = game.add.sprite(WIDTH, 0, 'BG');
-
-        /// Add player
         this.Player = game.add.sprite(100,100,'Player');
+        this.Floor = game.add.sprite(0,475,'Floor');
+        //#endregion
+        //#region Add PlayerAnim
         this.Run = this.Player.animations.add('Run')
         this.Player.animations.play('Run',20,true);
-        
-        //  Set collider
-        this.physics.enable(this.Player, Phaser.Physics.ARCADE);
-        //this.Player.body.bounce.y = 0.2;
+        //#endregion
+        //#region Set collider
+        this.physics.enable([this.Player, this.Floor], Phaser.Physics.ARCADE);
+
+        this.Floor.body.allowGravity = false;
+        this.Floor.body.checkCollision.up = true;
+        this.Floor.body.immovable = true;
+
         this.Player.body.collideWorldBounds = true;
         this.Player.body.setSize(20, 32, 5, 16);
 
+        //#endregion
         this.ObsList = [];
-        this.BigList = [];
-        this.SmallList = [];
-        textStyle_Key = { font: "bold 14px sans-serif", fill: "#46c0f9", align: "center" };
-        textStyle_Value = { font: "bold 18px sans-serif", fill: "#fff", align: "center" };
-
-        game.add.text(30, 20, "SCORE", textStyle_Key);
-        scoreTextValue = game.add.text(90, 18, score.toString(), textStyle_Value);
     },
 
     BG_effect: function() {
@@ -67,32 +64,31 @@ var Game = {
         Game.BG_effect();
 
         this.pushObs();
-        this.pushBig();
-        this.pushSmall();
+       // this.pushBig();
+        //this.pushSmall();
         for(let i=0; i<this.ObsList.length;i++){
             this.ObsList[i].x-=5;
         }
-        
-       
-    
-        if(Game.jumpButton.isDown && Game.Player.body.onFloor()){
-            Game.Player.body.velocity.y = -550;
+
+        game.physics.arcade.collide(Game.Player,Game.Floor);
+        if(Game.Player.body.touching.down && Game.jumpButton.isDown){
+                Game.Player.body.velocity.y = -500;
         }
+
     },
 
     pushObs: function(){
         if(rand(1,20) == 1){
-            let obs = game.add.image(800,460,'Obstacle');
+            let obs = game.add.image(800,460,'Obstacle',);
             Game.ObsList.push(obs)
             
         }
     },
     
-    pushBig: function(){
+    /*pushBig: function(){
         if(rand(1,20) == 1){
             let blocke = game.add.image(800,460,'BigBlock');
             Game.BigList.push(blocke)
-            
         }
     },
     
@@ -103,7 +99,7 @@ var Game = {
             
         }
     }
-
+*/
     
 }
 game.state.add('Game',Game);
