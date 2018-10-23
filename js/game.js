@@ -44,10 +44,8 @@ var Game = {
 
         this.Player.body.collideWorldBounds = true;
         this.Player.body.setSize(20, 32, 5, 16);
-        this.Player.body.y = 430
 
         //#endregion
-        this.ObsList = [];
         this.ObsGroup = game.add.group();
     },
 
