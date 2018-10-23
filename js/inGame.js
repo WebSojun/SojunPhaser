@@ -1,8 +1,5 @@
-
-var inGame = function(game) {}
-
-inGame.prototype = {
-    create: function(){
+var Game = {
+    create: function() {
         //  Set game physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.gravity.y = 800;

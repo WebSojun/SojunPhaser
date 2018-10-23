@@ -1,6 +1,4 @@
-var gameOver = function(game) {}
-
-gameOver.prototype = {
+var gameOver = {
     create: function() {
         this.jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
