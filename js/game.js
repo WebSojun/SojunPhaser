@@ -1,3 +1,5 @@
+var score = 0;
+
 var Game = {
     create: function () {
         //#region Set game physics
@@ -32,10 +34,12 @@ var Game = {
         this.ObsGroup = game.add.group();
         this.ObsGroup.physicsBodyType = Phaser.Physics.ARCADE;
         this.ObsGroup.enableBody = true;
-        //#endregion
-        this.PlayerHp = 3;
-        this.GodTime = 1;
-        this.PlayerTime = 0;
+
+        textStyle_Key = { font: "bold 14px sans-serif", fill: "#46c0f9", align: "center" };
+        textStyle_Value = { font: "bold 18px sans-serif", fill: "#fff", align: "center" };
+
+        game.add.text(30, 20, "SCORE: ", textStyle_Key);
+        textValue = game.add.text(90, 18, score, textStyle_Value);
     },
 
     BG_effect: function () {
@@ -54,19 +58,19 @@ var Game = {
         Game.BG_effect();
 
         this.pushObs();
-        if(game.physics.arcade.collide(Game.Player,Game.Floor) && Game.jumpButton.isDown){
+        this.ObsGroup.subAll('x', 5);
+
+
+        if (game.physics.arcade.collide(Game.Player, Game.Floor) && Game.jumpButton.isDown) {
             Game.Player.body.velocity.y = -500;
         }
 
-        if(game.physics.arcade.collide(Game.Player,this.ObsGroup) && this.PlayerTime > this.GodTime){
-            Game.PlayerHp -= 1;
-            this.PlayerTime = 0;
-        }
+        this.viewScore();
 
-        if(this.PlayerHp <= 0){
-            game.state.start('TEMP');
+        //  사 망        
+        if (game.physics.arcade.collide(Game.Player, this.ObsGroup)) {
+            game.state.start('gameOver');
         }
-        this.ObsGroup.subAll('x',5);
     },
 
     //장애물 소환
@@ -77,4 +81,13 @@ var Game = {
             this.ObsGroup.setAll('body.immovable', true);
         }
     },
+
+    viewScore: function () {
+        function addScore() {
+            score += 0.1;
+        }
+        addScore();
+        let intScore = parseInt(score);
+        textValue.setText(intScore);
+    }
 }
