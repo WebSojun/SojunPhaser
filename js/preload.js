@@ -13,6 +13,7 @@ var preload = {
         game.load.image('mainBG', 'asset/background/mainMenu.png');
 
         game.load.image('BG', 'asset/background/BackGround.png');
+        game.load.image('BG2','asset/background/BackGround2.png');
 
         game.load.spritesheet('Player', 'asset/sprites/RunP.png', 55, 64, 12);
         game.load.image('Obstacle', 'asset/sprites/Obstacle.png');

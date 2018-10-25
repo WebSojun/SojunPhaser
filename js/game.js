@@ -14,6 +14,12 @@ var Game = {
         //#region Add Sprite
         this.BG1 = game.add.sprite(0, 0, 'BG');
         this.BG2 = game.add.sprite(WIDTH, 0, 'BG');
+
+        this.BG3 = game.add.sprite(0, 0, 'BG2');
+        this.BG4 = game.add.sprite(WIDTH, 0, 'BG2');
+        this.BG3.alpha = 0;
+        this.BG4.alpha = 0;
+
         this.Player = game.add.sprite(100, 100, 'Player');
         this.Floor1 = game.add.sprite(0, 475, 'Floor');
         this.Floor2 = game.add.sprite(0, 475, 'Floor');
@@ -68,10 +74,13 @@ var Game = {
         this.BG1.x -= BG_speed;
         this.BG2.x -= BG_speed;
 
-        this.Floor1.x-=5;
-        this.Floor2.x-=5;
+        this.BG3.x -= BG_speed;
+        this.BG4.x -= BG_speed;
 
-        
+
+        this.Floor1.x -= 5;
+        this.Floor2.x -= 5;
+
         if (this.Floor2.x <= 0) {
             this.Floor1.x = 0;
             this.Floor2.x = WIDTH;
@@ -80,10 +89,20 @@ var Game = {
         if (this.BG2.x <= 0) {
             this.BG1.x = 0;
             this.BG2.x = WIDTH;
+
+            this.BG3.x = 0;
+            this.BG4.x = WIDTH;
         }
-        if (score >= 100) {
-            this.BG1.destroy();
-            this.BG2.destroy();
+
+        if (score >= 30) {
+            let aspeed = 0.01;
+            if (this.BG1.alpha > 0) {
+                this.BG1.alpha -= aspeed;
+                this.BG2.alpha -= aspeed;
+
+                this.BG3.alpha += aspeed;
+                this.BG4.alpha += aspeed;
+            }
         }
     },
 
@@ -99,12 +118,12 @@ var Game = {
         if (this.PlayerHp <= 0) {
             game.state.start('gameOver');
         }
-        this.ObsGroup.subAll('x', 5);
+        this.ObsGroup.subAll('x', 3);
     },
 
     //충돌 처리
-    Collide:function(){
-        if (game.physics.arcade.collide(Game.Player, [Game.Floor1,Game.Floor2]) && Game.jumpButton.isDown) {
+    Collide: function () {
+        if (game.physics.arcade.collide(Game.Player, [Game.Floor1, Game.Floor2]) && Game.jumpButton.isDown) {
             Game.Player.body.velocity.y = -500;
         }
 
@@ -135,7 +154,7 @@ var Game = {
             this.ObsGroup.setAll('body.immovable', true);
         }
     },
-    
+
     //점수 출력
     viewScore: function () {
         function addScore() {
