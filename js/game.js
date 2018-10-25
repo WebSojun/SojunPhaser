@@ -1,6 +1,6 @@
 var Game = {
     create: function () {
-        //  Set game physics
+        //#region Set game physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.gravity.y = 1400;
         //#endregion
