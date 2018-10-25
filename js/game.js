@@ -2,7 +2,8 @@ var score = 0;
 
 var Game = {
     create: function () {
-        //  Set game physics
+        score = 0;
+        //#region Set game physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.gravity.y = 1400;
         //#endregion
@@ -29,12 +30,6 @@ var Game = {
         this.Player.body.collideWorldBounds = true;
         this.Player.body.setSize(20, 32, 5, 32);
 
-        textStyle_Key = { font: "bold 14px sans-serif", fill: "#46c0f9", align: "center" };
-        textStyle_Value = { font: "bold 18px sans-serif", fill: "#fff", align: "center" };
-
-        game.add.text(30, 20, "SCORE: ", textStyle_Key);
-        textValue = game.add.text(90, 18, score, textStyle_Value);
-
         //#endregion
         //#region Setting ObsGroup
         this.ObsGroup = game.add.group();
@@ -42,18 +37,33 @@ var Game = {
         this.ObsGroup.enableBody = true;
 
         //#endregion
+        //#region Set Font&Text
+        textStyle_Key = { font: "bold 14px sans-serif", fill: "#46c0f9", align: "center" };
+        textStyle_Value = { font: "bold 18px sans-serif", fill: "#fff", align: "center" };
+
+        game.add.text(30, 20, "SCORE: ", textStyle_Key);
+        textValue = game.add.text(90, 18, score, textStyle_Value);
+        //#endregion
+        
         this.PlayerHp = 3;
         this.GodTime = 1;
         this.PlayerTime = 0;
+
     },
 
     BG_effect: function () {
-        let BG_speed = 5;
+        let BG_speed = 3;
         this.BG1.x -= BG_speed;
         this.BG2.x -= BG_speed;
         if (this.BG2.x <= 0) {
             this.BG1.x = 0;
             this.BG2.x = WIDTH;
+        }
+        if(score>=100){
+            this.BG1.destroy();
+            this.BG2.destroy();
+
+
         }
     },
 
@@ -83,8 +93,8 @@ var Game = {
 
     //장애물 소환
     pushObs: function () {
-        if (rand(1, 100) == 1) {
-            this.ObsGroup.create(800, 460, 'Obstacle');
+        if (rand(1, 50) == 1) {
+            this.ObsGroup.create(800, 457, 'Obstacle');
             this.ObsGroup.setAll('body.allowGravity', false);
             this.ObsGroup.setAll('body.immovable', true);
         }
