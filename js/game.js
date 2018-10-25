@@ -1,4 +1,5 @@
 var score = 0;
+var hp = [];
 
 var Game = {
     create: function () {
@@ -44,11 +45,17 @@ var Game = {
         game.add.text(30, 20, "SCORE: ", textStyle_Key);
         textValue = game.add.text(90, 18, score, textStyle_Value);
         //#endregion
-        
+
         this.PlayerHp = 3;
         this.GodTime = 1;
         this.PlayerTime = 0;
 
+        let w = 60;
+        for (let i = 0; i < this.PlayerHp; i++) {
+            hp[i] = game.add.sprite((WIDTH - w) - w * i, w, 'hp');
+            hp[i].anchor.setTo(0.5, 0.5);
+            console.log(hp[i]);
+        }
     },
 
     BG_effect: function () {
@@ -59,14 +66,13 @@ var Game = {
             this.BG1.x = 0;
             this.BG2.x = WIDTH;
         }
-        if(score>=100){
+        if (score >= 100) {
             this.BG1.destroy();
             this.BG2.destroy();
 
 
         }
     },
-
 
     update: function () {
         this.PlayerTime += 1.0 / 60.0;
@@ -80,7 +86,13 @@ var Game = {
 
         if (game.physics.arcade.collide(Game.Player, this.ObsGroup) && this.PlayerTime > this.GodTime) {
             Game.PlayerHp -= 1;
+            hp[Game.PlayerHp].destroy();
             this.PlayerTime = 0;
+            this.Player.alpha = 0.2;
+        }
+
+        if (this.PlayerTime >= 1) {
+            this.Player.alpha = 1;
         }
 
         this.viewScore();

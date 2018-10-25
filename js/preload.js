@@ -17,6 +17,7 @@ var preload = {
         game.load.spritesheet('Player', 'asset/sprites/RunP.png', 55, 64, 12);
         game.load.image('Obstacle', 'asset/sprites/Obstacle.png');
         game.load.image('Floor', 'asset/sprites/Fllllor.png');
+        game.load.image('hp', 'asset/sprites/hp.png');
 
         game.load.image('gameOverBG', 'asset/background/gameOverBG.png');
     },
