@@ -15,18 +15,23 @@ var Game = {
         this.BG1 = game.add.sprite(0, 0, 'BG');
         this.BG2 = game.add.sprite(WIDTH, 0, 'BG');
         this.Player = game.add.sprite(100, 100, 'Player');
-        this.Floor = game.add.sprite(0, 475, 'Floor');
+        this.Floor1 = game.add.sprite(0, 475, 'Floor');
+        this.Floor2 = game.add.sprite(0, 475, 'Floor');
         //#endregion
         //#region Add PlayerAnim
         this.Run = this.Player.animations.add('Run')
         this.Player.animations.play('Run', 20, true);
         //#endregion
         //#region Set collider
-        this.physics.enable([this.Player, this.Floor], Phaser.Physics.ARCADE);
+        this.physics.enable([this.Player, this.Floor1, this.Floor2], Phaser.Physics.ARCADE);
 
-        this.Floor.body.allowGravity = false;
-        this.Floor.body.checkCollision.up = true;
-        this.Floor.body.immovable = true;
+        this.Floor1.body.allowGravity = false;
+        this.Floor1.body.checkCollision.up = true;
+        this.Floor1.body.immovable = true;
+
+        this.Floor2.body.allowGravity = false;
+        this.Floor2.body.checkCollision.up = true;
+        this.Floor2.body.immovable = true;
 
         this.Player.body.collideWorldBounds = true;
         this.Player.body.setSize(20, 32, 5, 32);
@@ -54,14 +59,24 @@ var Game = {
         for (let i = 0; i < this.PlayerHp; i++) {
             hp[i] = game.add.sprite((WIDTH - w) - w * i, w, 'hp');
             hp[i].anchor.setTo(0.5, 0.5);
-            console.log(hp[i]);
         }
     },
 
+    //배경, 바닥 이동
     BG_effect: function () {
         let BG_speed = 3;
         this.BG1.x -= BG_speed;
         this.BG2.x -= BG_speed;
+
+        this.Floor1.x-=5;
+        this.Floor2.x-=5;
+
+        
+        if (this.Floor2.x <= 0) {
+            this.Floor1.x = 0;
+            this.Floor2.x = WIDTH;
+        }
+
         if (this.BG2.x <= 0) {
             this.BG1.x = 0;
             this.BG2.x = WIDTH;
@@ -69,8 +84,6 @@ var Game = {
         if (score >= 100) {
             this.BG1.destroy();
             this.BG2.destroy();
-
-
         }
     },
 
@@ -79,8 +92,19 @@ var Game = {
         Game.BG_effect();
 
         this.pushObs();
+        this.Collide();
 
-        if (game.physics.arcade.collide(Game.Player, Game.Floor) && Game.jumpButton.isDown) {
+        this.viewScore();
+
+        if (this.PlayerHp <= 0) {
+            game.state.start('gameOver');
+        }
+        this.ObsGroup.subAll('x', 5);
+    },
+
+    //충돌 처리
+    Collide:function(){
+        if (game.physics.arcade.collide(Game.Player, [Game.Floor1,Game.Floor2]) && Game.jumpButton.isDown) {
             Game.Player.body.velocity.y = -500;
         }
 
@@ -100,7 +124,7 @@ var Game = {
         if (this.PlayerHp <= 0) {
             game.state.start('gameOver');
         }
-        this.ObsGroup.subAll('x', 5);
+        this.ObsGroup.subAll('x', 3);
     },
 
     //장애물 소환
@@ -111,7 +135,8 @@ var Game = {
             this.ObsGroup.setAll('body.immovable', true);
         }
     },
-
+    
+    //점수 출력
     viewScore: function () {
         function addScore() {
             score += 0.1;
