@@ -70,14 +70,12 @@ var Game = {
 
         if (game.physics.arcade.collide(Game.Player, this.ObsGroup) && this.PlayerTime > this.GodTime) {
             Game.PlayerHp -= 1;
-            console.log("!!!");
             this.PlayerTime = 0;
         }
 
         this.viewScore();
 
         if (this.PlayerHp <= 0) {
-            console.log("over");
             game.state.start('gameOver');
         }
         this.ObsGroup.subAll('x', 5);
