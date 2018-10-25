@@ -63,7 +63,6 @@ var Game = {
 
         this.Floor1.x-=5;
         this.Floor2.x-=5;
-
         
         if (this.Floor2.x <= 0) {
             this.Floor1.x = 0;
@@ -74,11 +73,14 @@ var Game = {
             this.BG1.x = 0;
             this.BG2.x = WIDTH;
         }
-        if(score>=100){
+        if(score>=30){
             this.BG1.destroy();
             this.BG2.destroy();
 
-
+            this.BG1 = game.add.sprite(0, 0, 'BG2');
+            this.BG2 = game.add.sprite(WIDTH, 0, 'BG2');
+            game.world.sendToBack(this.BG1);
+            game.world.sendToBack(this.BG2);
         }
     },
 
