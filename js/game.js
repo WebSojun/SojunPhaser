@@ -92,8 +92,8 @@ var Game = {
         this.BG4.x -= BG_speed;
 
 
-        this.Floor1.x -= 5;
-        this.Floor2.x -= 5;
+        this.Floor1.x -= 6;
+        this.Floor2.x -= 6;
 
         if (this.Floor2.x <= 0) {
             this.Floor1.x = 0;
@@ -108,7 +108,7 @@ var Game = {
             this.BG4.x = WIDTH;
         }
 
-        if (score >= 30) {
+        if (score >= 500) {
             let aspeed = 0.01;
             if (this.BG1.alpha > 0) {
                 this.BG1.alpha -= aspeed;
@@ -133,7 +133,7 @@ var Game = {
             game.state.start('gameOver');
         }
         this.ObsGroup.subAll('x', 6);
-        this.PotionGroup.subAll('x',10);
+        this.PotionGroup.subAll('x',8)
         this.SpawnPotion();
     },
 
@@ -177,7 +177,7 @@ var Game = {
 
     //장애물 소환
     pushObs: function () {
-        if (rand(1, 50 / (score / 150.0) - 50) == 1) {
+        if (rand(1, 50 - (score / 100.0)) == 1) {
             this.ObsGroup.create(800, 457, 'Obstacle');
             this.ObsGroup.setAll('body.allowGravity', false);
             this.ObsGroup.setAll('body.immovable', true);
@@ -195,7 +195,7 @@ var Game = {
     },
 
     SpawnPotion: function(){
-        if(rand(1,300) == 1){
+        if(rand(1,400) == 1){
             this.PotionGroup.create(800, 440, 'Potion');
             this.PotionGroup.setAll('body.allowGravity', false);
             this.PotionGroup.setAll('body.immovable', true);
