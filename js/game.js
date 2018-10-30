@@ -1,6 +1,11 @@
 var score = 0;
 var hp = [];
 
+
+function DestroyP(PotionGroup){
+    PotionGroup.destroy();
+}
+
 var Game = {
     create: function () {
         score = 0;
@@ -43,10 +48,14 @@ var Game = {
         this.Player.body.setSize(20, 32, 5, 32);
 
         //#endregion
-        //#region Setting ObsGroup
+        //#region Setting Group
         this.ObsGroup = game.add.group();
         this.ObsGroup.physicsBodyType = Phaser.Physics.ARCADE;
         this.ObsGroup.enableBody = true;
+
+        this.PotionGroup = game.add.group();
+        this.PotionGroup.physicsBodyType = Phaser.Physics.ARCADE;
+        this.PotionGroup.enableBody = true;
 
         //#endregion
         //#region Set Font&Text
@@ -58,7 +67,7 @@ var Game = {
         //#endregion
 
         this.PlayerHp = 3;
-        this.GodTime = 1;
+        this.GodTime = 2;
         this.PlayerTime = 0;
 
         let w = 60;
@@ -118,7 +127,9 @@ var Game = {
         if (this.PlayerHp <= 0) {
             game.state.start('gameOver');
         }
-        this.ObsGroup.subAll('x', 3);
+        this.ObsGroup.subAll('x', 6);
+        this.PotionGroup.subAll('x',10);
+        this.SpawnPotion();
     },
 
     //충돌 처리
@@ -126,15 +137,28 @@ var Game = {
         if (game.physics.arcade.collide(Game.Player, [Game.Floor1, Game.Floor2]) && Game.jumpButton.isDown) {
             Game.Player.body.velocity.y = -500;
         }
-
+        //장애물 충돌
         if (game.physics.arcade.collide(Game.Player, this.ObsGroup) && this.PlayerTime > this.GodTime) {
             Game.PlayerHp -= 1;
-            hp[Game.PlayerHp].destroy();
+            hp[Game.PlayerHp].kill();
             this.PlayerTime = 0;
             this.Player.alpha = 0.2;
         }
+        //포션 충돌
+        Game.PotionGroup.forEach(function(Potion) {
+            if(game.physics.arcade.collide(Game.Player,Potion)){
+                Potion.destroy();
+                
+                if(Game.PlayerHp < 3){
+                    Game.PlayerHp++;
+                    hp[Game.PlayerHp-1].reset((WIDTH - 60 * Game.PlayerHp), 60);
+                    
+                }
+            }
+        })        
 
-        if (this.PlayerTime >= 1) {
+        
+        if (this.PlayerTime >= this.GodTime) {
             this.Player.alpha = 1;
         }
 
@@ -143,12 +167,11 @@ var Game = {
         if (this.PlayerHp <= 0) {
             game.state.start('gameOver');
         }
-        this.ObsGroup.subAll('x', 3);
     },
 
     //장애물 소환
     pushObs: function () {
-        if (rand(1, 50) == 1) {
+        if (rand(1, 50 / (score / 150.0) - 50) == 1) {
             this.ObsGroup.create(800, 457, 'Obstacle');
             this.ObsGroup.setAll('body.allowGravity', false);
             this.ObsGroup.setAll('body.immovable', true);
@@ -163,5 +186,14 @@ var Game = {
         addScore();
         let intScore = parseInt(score);
         textValue.setText(intScore);
+    },
+
+    SpawnPotion: function(){
+        if(rand(1,300) == 1){
+            this.PotionGroup.create(800, 440, 'Potion');
+            this.PotionGroup.setAll('body.allowGravity', false);
+            this.PotionGroup.setAll('body.immovable', true);
+            
+        }
     }
 }

@@ -21,6 +21,8 @@ var preload = {
         game.load.image('hp', 'asset/sprites/hp.png');
 
         game.load.image('gameOverBG', 'asset/background/gameOverBG.png');
+
+        game.load.image('Potion','asset/sprites/potion.png');
     },
 
     create: function () {
