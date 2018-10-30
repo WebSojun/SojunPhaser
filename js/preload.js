@@ -9,6 +9,7 @@ const HEIGHT = 600;
 
 var preload = {
     preload: function () {
+        //  Image
         game.load.image('button', 'asset/sprites/bt_start.png');
         game.load.image('mainBG', 'asset/background/mainMenu.png');
 
@@ -21,6 +22,9 @@ var preload = {
         game.load.image('hp', 'asset/sprites/hp.png');
 
         game.load.image('gameOverBG', 'asset/background/gameOverBG.png');
+
+        //  Audio
+        game.load.audio('BGM', 'asset/sound/bgm.mp3'); 
     },
 
     create: function () {

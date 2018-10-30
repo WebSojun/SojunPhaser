@@ -3,6 +3,11 @@ var hp = [];
 
 var Game = {
     create: function () {
+        this.BGM = game.add.audio('BGM');
+        this.BGM.loopFull(0.6)
+        //game.sound.setDecodedCallback(this.BGM, start, this);
+        
+        
         score = 0;
         //#region Set game physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -142,6 +147,7 @@ var Game = {
 
         if (this.PlayerHp <= 0) {
             game.state.start('gameOver');
+            this.BGM.destroy();
         }
         this.ObsGroup.subAll('x', 3);
     },
