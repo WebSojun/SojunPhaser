@@ -71,7 +71,7 @@ var Game = {
         textValue = game.add.text(90, 18, score, textStyle_Value);
         //#endregion
 
-        this.PlayerHp = 3;
+        this.PlayerHp = 4;
         this.GodTime = 2;
         this.PlayerTime = 0;
 
@@ -154,7 +154,7 @@ var Game = {
             if(game.physics.arcade.collide(Game.Player,Potion)){
                 Potion.destroy();
                 
-                if(Game.PlayerHp < 3){
+                if(Game.PlayerHp < 4){
                     Game.PlayerHp++;
                     hp[Game.PlayerHp-1].reset((WIDTH - 60 * Game.PlayerHp), 60);
                     
