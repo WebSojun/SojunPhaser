@@ -25,6 +25,7 @@ var preload = {
 
         //  Audio
         game.load.audio('BGM', 'asset/sound/bgm.mp3'); 
+        game.load.image('Potion','asset/sprites/potion.png');
     },
 
     create: function () {
